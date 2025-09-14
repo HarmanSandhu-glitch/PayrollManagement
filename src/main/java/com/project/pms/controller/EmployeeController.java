@@ -1,6 +1,7 @@
 package com.project.pms.controller;
 
 import com.project.pms.entity.Employee;
+import com.project.pms.entity.Payroll;
 import com.project.pms.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +54,18 @@ public class EmployeeController {
         if (employeeRepository.existsById(id)) {
             employeeRepository.deleteById(id);
             return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/{id}/getPayroll")
+    public ResponseEntity<List<Payroll>> getEmployeePayroll(@PathVariable Long id) {
+        Optional<Employee> employeeOptional = employeeRepository.findById(id);
+        if (employeeOptional.isPresent()) {
+            PayrollController pcontroller = new PayrollController();
+            ResponseEntity<List<Payroll>> payrollsResponse = pcontroller.getPayrollsForEmployee(id);
+            return payrollsResponse;
         } else {
             return ResponseEntity.notFound().build();
         }

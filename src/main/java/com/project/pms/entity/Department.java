@@ -1,5 +1,6 @@
 package com.project.pms.entity;
 
+
 import jakarta.persistence.*;
 import java.util.Set;
 
@@ -9,15 +10,17 @@ public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "department_id")
     private Long departmentId;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "department_name", nullable = false, unique = true)
     private String departmentName;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id") // This will create a department_id column in the positions table
+    @JoinColumn(name = "department_id")
     private Set<Position> departmentPositions;
 
+    // Getters and Setters
     public Long getDepartmentId() {
         return departmentId;
     }
@@ -42,3 +45,4 @@ public class Department {
         this.departmentPositions = departmentPositions;
     }
 }
+

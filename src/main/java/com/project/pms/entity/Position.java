@@ -16,6 +16,9 @@ public class Position {
     @Column(nullable = false)
     private Double positionExperienceBonus;
 
+    @Column(nullable = false)
+    private Double positionBaseSalary;
+
     // Getters and Setters
     public Long getPositionId() {
         return positionId;
@@ -39,5 +42,13 @@ public class Position {
 
     public void setPositionExperienceBonus(Double positionExperienceBonus) {
         this.positionExperienceBonus = positionExperienceBonus;
+    }
+
+    public Double getPositionBaseSalary() {
+        return positionBaseSalary;
+    }
+
+    public void setPositionBaseSalary(Double positionBaseSalary) {
+        this.positionBaseSalary = positionBaseSalary;
     }
 }
