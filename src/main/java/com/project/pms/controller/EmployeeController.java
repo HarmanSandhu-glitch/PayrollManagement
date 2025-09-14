@@ -3,6 +3,7 @@ package com.project.pms.controller;
 import com.project.pms.entity.Employee;
 import com.project.pms.entity.Payroll;
 import com.project.pms.repository.EmployeeRepository;
+import com.project.pms.repository.PayrollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,9 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private PayrollRepository payrollRepository;
 
     @GetMapping
     public List<Employee> getAllEmployees() {
@@ -63,9 +67,8 @@ public class EmployeeController {
     public ResponseEntity<List<Payroll>> getEmployeePayroll(@PathVariable Long id) {
         Optional<Employee> employeeOptional = employeeRepository.findById(id);
         if (employeeOptional.isPresent()) {
-            PayrollController pcontroller = new PayrollController();
-            ResponseEntity<List<Payroll>> payrollsResponse = pcontroller.getPayrollsForEmployee(id);
-            return payrollsResponse;
+            List<Payroll> payrolls = payrollRepository.findByEmployeeEmployeeId(id);
+            return ResponseEntity.ok(payrolls);
         } else {
             return ResponseEntity.notFound().build();
         }

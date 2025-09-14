@@ -39,6 +39,7 @@ public class PositionController {
             Position position = positionOptional.get();
             position.setPositionTitle(positionDetails.getPositionTitle());
             position.setPositionExperienceBonus(positionDetails.getPositionExperienceBonus());
+            position.setPositionBaseSalary(positionDetails.getPositionBaseSalary());
             return ResponseEntity.ok(positionRepository.save(position));
         } else {
             return ResponseEntity.notFound().build();

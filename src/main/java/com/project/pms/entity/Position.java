@@ -14,10 +14,10 @@ public class Position {
     private String positionTitle;
 
     @Column(nullable = false)
-    private Double positionExperienceBonus;
+    private Double positionExperienceBonus = 0.0;
 
     @Column(nullable = false)
-    private Double positionBaseSalary;
+    private Double positionBaseSalary = 0.0;
 
     // Getters and Setters
     public Long getPositionId() {
