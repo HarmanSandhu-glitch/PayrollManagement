@@ -9,6 +9,7 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "employeeId") // Or whatever the actual column name is
     private Long employeeId;
 
     @Column(nullable = false)
