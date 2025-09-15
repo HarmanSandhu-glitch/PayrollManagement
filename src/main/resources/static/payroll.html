@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Payroll</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>Payroll Management System</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="employees.html">Employees</a>
+        <a href="departments.html">Departments</a>
+        <a href="positions.html">Positions</a>
+        <a href="payroll.html">Payroll</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Manage Payroll</h2>
+
+    <div>
+        <h3>Generate Payroll</h3>
+        <form onsubmit="generatePayroll(event)">
+            <label for="payrollEmployeeId">Select Employee:</label>
+            <select id="payrollEmployeeId" required></select>
+            <label for="deductions">Deductions:</label>
+            <input type="number" id="deductions" value="0">
+            <button type="submit">Generate</button>
+        </form>
+    </div>
+
+    <div>
+        <h3>View Payroll</h3>
+        <form onsubmit="viewPayroll(event)">
+            <label for="viewPayrollEmployeeId">Select Employee:</label>
+            <select id="viewPayrollEmployeeId" required></select>
+            <button type="submit">View</button>
+        </form>
+        <table id="payrollTable">
+            <thead>
+            <tr>
+                <th>Payroll ID</th>
+                <th>Pay Date</th>
+                <th>Base Salary</th>
+                <th>Experience Bonus</th>
+                <th>Deductions</th>
+                <th>Total Pay</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<script src="script.js"></script>
+<script>
+    window.onload = function() {
+        loadEmployeesDropdown('payrollEmployeeId');
+        loadEmployeesDropdown('viewPayrollEmployeeId');
+    };
+</script>
+</body>
+</html>

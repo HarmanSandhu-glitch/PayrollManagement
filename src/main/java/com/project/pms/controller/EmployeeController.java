@@ -55,8 +55,15 @@ public class EmployeeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
-        if (employeeRepository.existsById(id)) {
+        Optional<Employee> employeeOptional = employeeRepository.findById(id);
+        if (employeeOptional.isPresent()) {
+            // First, find and delete all payrolls associated with this employee
+            List<Payroll> payrolls = payrollRepository.findByEmployeeEmployeeId(id);
+            payrollRepository.deleteAll(payrolls);
+
+            // Then, delete the employee
             employeeRepository.deleteById(id);
+
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
