@@ -1,10 +1,6 @@
 // Employee Management
 function loadEmployees() {
-    fetch('/api/employees', {
-        headers: {
-            'Authorization': 'Basic ' + btoa('user:password')
-        }
-    })
+    fetch('/api/employees')
         .then(response => response.json())
         .then(data => {
             const tableBody = document.getElementById('employeesTable').getElementsByTagName('tbody')[0];
@@ -51,10 +47,7 @@ function submitEmployeeForm(event) {
 
     fetch(url, {
         method: method,
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Basic ' + btoa('user:password')
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(employee)
     }).then(() => {
         hideEmployeeForm();
@@ -63,11 +56,7 @@ function submitEmployeeForm(event) {
 }
 
 function editEmployee(id) {
-    fetch(`/api/employees/${id}`, {
-        headers: {
-            'Authorization': 'Basic ' + btoa('user:password')
-        }
-    })
+    fetch(`/api/employees/${id}`)
         .then(response => response.json())
         .then(employee => {
             document.getElementById('employeeId').value = employee.employeeId;
@@ -82,16 +71,12 @@ function editEmployee(id) {
 
 function deleteEmployee(id) {
     if (confirm('Are you sure you want to delete this employee?')) {
-        fetch(`/api/employees/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': 'Basic ' + btoa('user:password')
-            }
-        })
+        fetch(`/api/employees/${id}`, { method: 'DELETE' })
             .then(response => {
                 if (response.ok) {
                     loadEmployees();
                 } else {
+                    // This will show an alert if the delete fails
                     alert('Failed to delete employee. They might have payroll records associated with them.');
                 }
             })
@@ -102,11 +87,7 @@ function deleteEmployee(id) {
 
 // Department Management
 function loadDepartments() {
-    fetch('/api/departments', {
-        headers: {
-            'Authorization': 'Basic ' + btoa('user:password')
-        }
-    })
+    fetch('/api/departments')
         .then(response => response.json())
         .then(data => {
             const tableBody = document.getElementById('departmentsTable').getElementsByTagName('tbody')[0];
@@ -143,10 +124,7 @@ function submitDepartmentForm(event) {
 
     fetch(url, {
         method: method,
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Basic ' + btoa('user:password')
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(department)
     }).then(() => {
         hideDepartmentForm();
@@ -155,11 +133,7 @@ function submitDepartmentForm(event) {
 }
 
 function editDepartment(id) {
-    fetch(`/api/departments/${id}`, {
-        headers: {
-            'Authorization': 'Basic ' + btoa('user:password')
-        }
-    })
+    fetch(`/api/departments/${id}`)
         .then(response => response.json())
         .then(department => {
             document.getElementById('departmentId').value = department.departmentId;
@@ -170,16 +144,12 @@ function editDepartment(id) {
 
 function deleteDepartment(id) {
     if (confirm('Are you sure you want to delete this department?')) {
-        fetch(`/api/departments/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': 'Basic ' + btoa('user:password')
-            }
-        })
+        fetch(`/api/departments/${id}`, { method: 'DELETE' })
             .then(response => {
                 if (response.ok) {
                     loadDepartments();
                 } else {
+                    // This will show an alert if the delete fails
                     alert('Failed to delete department. Make sure no employees are assigned to it.');
                 }
             })
@@ -189,11 +159,7 @@ function deleteDepartment(id) {
 
 // Position Management
 function loadPositions() {
-    fetch('/api/positions', {
-        headers: {
-            'Authorization': 'Basic ' + btoa('user:password')
-        }
-    })
+    fetch('/api/positions')
         .then(response => response.json())
         .then(data => {
             const tableBody = document.getElementById('positionsTable').getElementsByTagName('tbody')[0];
@@ -238,10 +204,7 @@ function submitPositionForm(event) {
 
     fetch(url, {
         method: method,
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Basic ' + btoa('user:password')
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(position)
     }).then(() => {
         hidePositionForm();
@@ -250,11 +213,7 @@ function submitPositionForm(event) {
 }
 
 function editPosition(id) {
-    fetch(`/api/positions/${id}`, {
-        headers: {
-            'Authorization': 'Basic ' + btoa('user:password')
-        }
-    })
+    fetch(`/api/positions/${id}`)
         .then(response => response.json())
         .then(position => {
             document.getElementById('positionId').value = position.positionId;
@@ -267,16 +226,12 @@ function editPosition(id) {
 
 function deletePosition(id) {
     if (confirm('Are you sure you want to delete this position?')) {
-        fetch(`/api/positions/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': 'Basic ' + btoa('user:password')
-            }
-        })
+        fetch(`/api/positions/${id}`, { method: 'DELETE' })
             .then(response => {
                 if (response.ok) {
                     loadPositions();
                 } else {
+                    // This will show an alert if the delete fails
                     alert('Failed to delete position. Make sure no employees are assigned to this position.');
                 }
             })
@@ -293,10 +248,7 @@ function generatePayroll(event) {
 
     fetch(`/api/payroll/generate/${employeeId}`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Basic ' + btoa('user:password')
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
     }).then(() => {
         alert('Payroll generated successfully!');
@@ -306,11 +258,7 @@ function generatePayroll(event) {
 function viewPayroll(event) {
     event.preventDefault();
     const employeeId = document.getElementById('viewPayrollEmployeeId').value;
-    fetch(`/api/employees/${employeeId}/getPayroll`, {
-        headers: {
-            'Authorization': 'Basic ' + btoa('user:password')
-        }
-    })
+    fetch(`/api/employees/${employeeId}/getPayroll`)
         .then(response => response.json())
         .then(data => {
             const tableBody = document.getElementById('payrollTable').getElementsByTagName('tbody')[0];
@@ -329,11 +277,7 @@ function viewPayroll(event) {
 
 // Dropdown Loaders
 function loadDepartmentsDropdown() {
-    fetch('/api/departments', {
-        headers: {
-            'Authorization': 'Basic ' + btoa('user:password')
-        }
-    })
+    fetch('/api/departments')
         .then(response => response.json())
         .then(data => {
             const select = document.getElementById('employeeDepartment');
@@ -348,11 +292,7 @@ function loadDepartmentsDropdown() {
 }
 
 function loadPositionsDropdown() {
-    fetch('/api/positions', {
-        headers: {
-            'Authorization': 'Basic ' + btoa('user:password')
-        }
-    })
+    fetch('/api/positions')
         .then(response => response.json())
         .then(data => {
             const select = document.getElementById('employeePosition');
@@ -367,11 +307,7 @@ function loadPositionsDropdown() {
 }
 
 function loadEmployeesDropdown(selectId) {
-    fetch('/api/employees', {
-        headers: {
-            'Authorization': 'Basic ' + btoa('user:password')
-        }
-    })
+    fetch('/api/employees')
         .then(response => response.json())
         .then(data => {
             const select = document.getElementById(selectId);
