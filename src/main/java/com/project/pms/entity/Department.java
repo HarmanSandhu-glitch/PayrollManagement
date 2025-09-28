@@ -1,48 +1,22 @@
 package com.project.pms.entity;
 
-
 import jakarta.persistence.*;
+import lombok.Data;
 import java.util.Set;
 
 @Entity
 @Table(name = "departments")
+@Data
 public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "department_id")
     private Long departmentId;
 
-    @Column(name = "department_name", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String departmentName;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Set<Position> departmentPositions;
-
-    // Getters and Setters
-    public Long getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
-    }
-
-    public String getDepartmentName() {
-        return departmentName;
-    }
-
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
-    }
-
-    public Set<Position> getDepartmentPositions() {
-        return departmentPositions;
-    }
-
-    public void setDepartmentPositions(Set<Position> departmentPositions) {
-        this.departmentPositions = departmentPositions;
-    }
 }
-

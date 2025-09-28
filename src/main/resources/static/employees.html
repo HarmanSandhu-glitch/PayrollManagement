@@ -2,62 +2,109 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Employees</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined">
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@material/web/all.js?module"></script>
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-    <h1>Payroll Management System</h1>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="employees.html">Employees</a>
-        <a href="departments.html">Departments</a>
-        <a href="positions.html">Positions</a>
-        <a href="payroll.html">Payroll</a>
-    </nav>
-</header>
-
-<main>
-    <h2>Manage Employees</h2>
-    <button onclick="showAddEmployeeForm()">Add New Employee</button>
-    <table id="employeesTable">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Join Date</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
-    <div id="employeeForm" style="display:none;">
-        <h3>Add/Edit Employee</h3>
-        <form onsubmit="submitEmployeeForm(event)">
-            <input type="hidden" id="employeeId">
-            <label for="employeeName">Name:</label>
-            <input type="text" id="employeeName" required>
-            <label for="employeeEmail">Email:</label>
-            <input type="email" id="employeeEmail" required>
-            <label for="employeeJoinDate">Join Date:</label>
-            <input type="date" id="employeeJoinDate" required>
-            <label for="employeeDepartment">Department:</label>
-            <select id="employeeDepartment" required></select>
-            <label for="employeePosition">Position:</label>
-            <select id="employeePosition" required></select>
-            <button type="submit">Save</button>
-            <button type="button" onclick="hideEmployeeForm()">Cancel</button>
-        </form>
+<div class="main-layout">
+    <div class="top-app-bar">
+        <span class="app-title">Employees</span>
+        <div class="spacer"></div>
+        <md-text-button href="index.html">Home</md-text-button>
+        <md-text-button href="employees.html">Employees</md-text-button>
+        <md-text-button href="departments.html">Departments</md-text-button>
+        <md-text-button href="positions.html">Positions</md-text-button>
+        <md-text-button href="payroll.html">Payroll</md-text-button>
     </div>
-</main>
+
+    <main class="page-content">
+        <div class="card">
+            <div class="card-header">
+                <h2>Employee List</h2>
+            </div>
+            <div class="responsive-table-container">
+                <table class="m3-table" id="employeesTable">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Join Date</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card" id="employeeForm" style="display:none;">
+            <div class="card-header">
+                <h2>Add/Edit Employee</h2>
+            </div>
+            <form onsubmit="submitEmployeeForm(event)">
+                <div class="form-container">
+                    <input type="hidden" id="employeeId">
+                    <md-outlined-text-field label="Name" id="employeeName" required></md-outlined-text-field>
+                    <md-outlined-text-field label="Email" type="email" id="employeeEmail" required></md-outlined-text-field>
+                    <md-outlined-text-field label="Join Date" type="date" id="employeeJoinDate" required></md-outlined-text-field>
+                    <md-outlined-select label="Department" id="employeeDepartment" required></md-outlined-select>
+                    <md-outlined-select label="Position" id="employeePosition" required></md-outlined-select>
+                </div>
+                <div class="form-actions">
+                    <md-outlined-button type="button" onclick="hideEmployeeForm()">Cancel</md-outlined-button>
+                    <md-filled-button type="submit">Save</md-filled-button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <md-fab aria-label="Add Employee" onclick="showAddEmployeeForm()">
+        <span class="material-symbols-outlined" slot="icon">add</span>
+    </md-fab>
+</div>
 
 <script src="script.js"></script>
 <script>
     window.onload = function() {
         loadEmployees();
+        loadDepartmentsDropdown();
+        loadPositionsDropdown();
+
+        // MWC Select components need options added dynamically
+        const deptSelect = document.getElementById('employeeDepartment');
+        const posSelect = document.getElementById('employeePosition');
+
+        // Helper to add options to MWC select
+        const addOptions = (select, data, valueField, textField) => {
+            data.forEach(item => {
+                const option = document.createElement('md-menu-item');
+                option.value = item[valueField];
+                option.textContent = item[textField];
+                select.appendChild(option);
+            });
+        };
+
+        // Override dropdown loaders for MWC
+        window.loadDepartmentsDropdown = function() {
+            fetch('/api/departments', { headers: { 'Authorization': 'Basic ' + btoa('user:password') } })
+                .then(response => response.json())
+                .then(data => addOptions(deptSelect, data, 'departmentId', 'departmentName'));
+        };
+        window.loadPositionsDropdown = function() {
+            fetch('/api/positions', { headers: { 'Authorization': 'Basic ' + btoa('user:password') } })
+                .then(response => response.json())
+                .then(data => addOptions(posSelect, data, 'positionId', 'positionTitle'));
+        };
+
         loadDepartmentsDropdown();
         loadPositionsDropdown();
     };

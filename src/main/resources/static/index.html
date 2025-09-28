@@ -2,26 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payroll Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined">
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@material/web/all.js?module"></script>
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-    <h1>Payroll Management System</h1>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="employees.html">Employees</a>
-        <a href="departments.html">Departments</a>
-        <a href="positions.html">Positions</a>
-        <a href="payroll.html">Payroll</a>
-    </nav>
-</header>
+<div class="main-layout">
+    <div class="top-app-bar">
+        <span class="app-title">Home</span>
+        <div class="spacer"></div>
+        <md-text-button href="index.html">Home</md-text-button>
+        <md-text-button href="employees.html">Employees</md-text-button>
+        <md-text-button href="departments.html">Departments</md-text-button>
+        <md-text-button href="positions.html">Positions</md-text-button>
+        <md-text-button href="payroll.html">Payroll</md-text-button>
+    </div>
 
-<main style="text-align: center; margin-top: 50px;">
-    <h2>Welcome to the Payroll Management System</h2>
-    <p>Use the navigation links above to manage your employees, departments, positions, and payroll.</p>
-</main>
-
-<script src="script.js"></script>
+    <main class="page-content">
+        <div class="card">
+            <div class="card-header">
+                <h2>Welcome to the Payroll Management System</h2>
+            </div>
+            <p>
+                This application demonstrates a complete full-stack solution using Java Spring Boot for the backend and modern Material 3 (Material You) for the frontend.
+            </p>
+            <p>
+                Use the navigation links at the top to explore the different management sections.
+            </p>
+        </div>
+    </main>
+</div>
 </body>
 </html>

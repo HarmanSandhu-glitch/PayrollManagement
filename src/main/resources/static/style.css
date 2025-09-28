@@ -1,54 +1,157 @@
+/* Import Google Fonts: Poppins for headings, Roboto for body */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Roboto:wght@400;500&display=swap');
+
+/*
+  An "Expressive" Material You (M3) static color theme.
+  This theme uses a Teal/Blue primary color and larger rounded corners.
+*/
+:root {
+    --md-sys-color-primary: #006a6a;
+    --md-sys-color-on-primary: #ffffff;
+    --md-sys-color-primary-container: #70f7f6;
+    --md-sys-color-on-primary-container: #002020;
+    --md-sys-color-secondary: #4a6363;
+    --md-sys-color-on-secondary: #ffffff;
+    --md-sys-color-secondary-container: #cde8e7;
+    --md-sys-color-on-secondary-container: #051f1f;
+    --md-sys-color-tertiary: #4a607c;
+    --md-sys-color-on-tertiary: #ffffff;
+    --md-sys-color-tertiary-container: #d2e4ff;
+    --md-sys-color-on-tertiary-container: #041d36;
+    --md-sys-color-error: #ba1a1a;
+    --md-sys-color-on-error: #ffffff;
+    --md-sys-color-background: #fafdfc;
+    --md-sys-color-on-background: #191c1c;
+    --md-sys-color-surface: #fafdfc;
+    --md-sys-color-on-surface: #191c1c;
+    --md-sys-color-surface-variant: #dbe4e4;
+    --md-sys-color-on-surface-variant: #3f4949;
+    --md-sys-color-outline: #6f7979;
+
+    /* Custom properties for expressive style */
+    --expressive-font: 'Poppins', sans-serif;
+    --body-font: 'Roboto', sans-serif;
+    --large-corner-radius: 28px;
+    --medium-corner-radius: 16px;
+}
+
 body {
-    font-family: sans-serif;
+    font-family: var(--body-font);
     margin: 0;
-    padding: 0;
+    background-color: var(--md-sys-color-background);
+    color: var(--md-sys-color-on-background);
 }
 
-header {
-    background-color: #333;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-}
-
-nav a {
-    color: white;
-    margin: 0 1rem;
-    text-decoration: none;
-}
-
-main {
-    padding: 2rem;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-}
-
-th, td {
-    border: 1px solid #ccc;
-    padding: 0.5rem;
-}
-
-button {
-    cursor: pointer;
-    padding: 0.5rem 1rem;
-    border: none;
-    background-color: #333;
-    color: white;
-    border-radius: 5px;
-}
-
-form {
-    margin-top: 1rem;
+/* Main layout styles */
+.main-layout {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    min-height: 100vh;
 }
 
-form input, form select {
-    margin-bottom: 0.5rem;
-    padding: 0.5rem;
+.top-app-bar {
+    background-color: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+    padding: 0 16px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid var(--md-sys-color-outline);
+}
+
+.app-title {
+    font-family: var(--expressive-font);
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+.page-content {
+    padding: 24px;
+    max-width: 1100px;
+    margin: 32px auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Card styles with expressive rounding */
+.card {
+    background-color: var(--md-sys-color-surface);
+    border-radius: var(--medium-corner-radius);
+    padding: 24px;
+    margin-bottom: 32px;
+    border: 1px solid var(--md-sys-color-outline);
+    overflow: hidden;
+}
+
+.card-header {
+    margin: -24px -24px 24px -24px;
+    padding: 16px 24px;
+    background-color: var(--md-sys-color-primary-container);
+}
+
+.card-header h2 {
+    margin: 0;
+    font-family: var(--expressive-font);
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--md-sys-color-on-primary-container);
+}
+
+/* Form styles */
+.form-container, .view-form-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.form-actions {
+    grid-column: 1 / -1; /* Make buttons span full width */
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+/* Table Styling */
+.responsive-table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table.m3-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.m3-table th, .m3-table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--md-sys-color-outline);
+}
+
+.m3-table th {
+    font-weight: 500;
+    color: var(--md-sys-color-on-surface);
+}
+
+.m3-table tbody tr:last-of-type td {
+    border-bottom: none;
+}
+
+/* FAB Styling */
+md-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 10;
+}
+
+md-outlined-select, md-outlined-text-field {
+    width: 100%;
 }

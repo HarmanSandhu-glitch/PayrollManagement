@@ -2,12 +2,13 @@ package com.project.pms.controller;
 
 import com.project.pms.entity.Employee;
 import com.project.pms.entity.Payroll;
-import com.project.pms.repository.EmployeeRepository;
-import com.project.pms.repository.PayrollRepository;
+import com.project.pms.service.EmployeeService;
+import com.project.pms.service.PayrollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,54 +17,45 @@ import java.util.Optional;
 public class EmployeeController {
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EmployeeService employeeService;
 
     @Autowired
-    private PayrollRepository payrollRepository;
+    private PayrollService payrollService;
 
     @GetMapping
     public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+        return employeeService.getAllEmployees();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
-        Optional<Employee> employee = employeeRepository.findById(id);
+        Optional<Employee> employee = employeeService.getEmployeeById(id);
         return employee.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Employee createEmployee(@RequestBody Employee employee) {
-        return employeeRepository.save(employee);
+    public Employee createEmployee(@Valid @RequestBody Employee employee) {
+        return employeeService.saveEmployee(employee);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
-        Optional<Employee> employeeOptional = employeeRepository.findById(id);
-        if (employeeOptional.isPresent()) {
-            Employee employee = employeeOptional.get();
-            employee.setEmployeeName(employeeDetails.getEmployeeName());
-            employee.setEmployeeEmail(employeeDetails.getEmployeeEmail());
-            employee.setEmployeeJoinDate(employeeDetails.getEmployeeJoinDate());
-            employee.setEmployeeDepartment(employeeDetails.getEmployeeDepartment());
-            employee.setEmployeePosition(employeeDetails.getEmployeePosition());
-            return ResponseEntity.ok(employeeRepository.save(employee));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @Valid @RequestBody Employee employeeDetails) {
+        return employeeService.getEmployeeById(id)
+                .map(employee -> {
+                    employee.setEmployeeName(employeeDetails.getEmployeeName());
+                    employee.setEmployeeEmail(employeeDetails.getEmployeeEmail());
+                    employee.setEmployeeJoinDate(employeeDetails.getEmployeeJoinDate());
+                    employee.setEmployeeDepartment(employeeDetails.getEmployeeDepartment());
+                    employee.setEmployeePosition(employeeDetails.getEmployeePosition());
+                    return ResponseEntity.ok(employeeService.saveEmployee(employee));
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
-        Optional<Employee> employeeOptional = employeeRepository.findById(id);
-        if (employeeOptional.isPresent()) {
-            // First, find and delete all payrolls associated with this employee
-            List<Payroll> payrolls = payrollRepository.findByEmployeeEmployeeId(id);
-            payrollRepository.deleteAll(payrolls);
-
-            // Then, delete the employee
-            employeeRepository.deleteById(id);
-
+        if (employeeService.getEmployeeById(id).isPresent()) {
+            employeeService.deleteEmployee(id);
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
@@ -72,12 +64,8 @@ public class EmployeeController {
 
     @GetMapping("/{id}/getPayroll")
     public ResponseEntity<List<Payroll>> getEmployeePayroll(@PathVariable Long id) {
-        Optional<Employee> employeeOptional = employeeRepository.findById(id);
-        if (employeeOptional.isPresent()) {
-            List<Payroll> payrolls = payrollRepository.findByEmployeeEmployeeId(id);
-            return ResponseEntity.ok(payrolls);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return employeeService.getEmployeeById(id)
+                .map(employee -> ResponseEntity.ok(payrollService.getPayrollsForEmployee(id)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

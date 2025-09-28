@@ -1,11 +1,12 @@
 package com.project.pms.entity;
 
-
 import jakarta.persistence.*;
+import lombok.Data;
 import java.util.Date;
 
 @Entity
 @Table(name = "payrolls")
+@Data
 public class Payroll {
 
     @Id
@@ -31,61 +32,4 @@ public class Payroll {
 
     @Column(nullable = false)
     private Double payrollTotalPay;
-
-    // Getters and Setters
-    public Long getPayrollId() {
-        return payrollId;
-    }
-
-    public void setPayrollId(Long payrollId) {
-        this.payrollId = payrollId;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public Date getPayrollPayDate() {
-        return payrollPayDate;
-    }
-
-    public void setPayrollPayDate(Date payrollPayDate) {
-        this.payrollPayDate = payrollPayDate;
-    }
-
-    public Double getPayrollBaseSalary() {
-        return payrollBaseSalary;
-    }
-
-    public void setPayrollBaseSalary(Double payrollBaseSalary) {
-        this.payrollBaseSalary = payrollBaseSalary;
-    }
-
-    public Double getPayrollExperienceBonus() {
-        return payrollExperienceBonus;
-    }
-
-    public void setPayrollExperienceBonus(Double payrollExperienceBonus) {
-        this.payrollExperienceBonus = payrollExperienceBonus;
-    }
-
-    public Double getPayrollDeductions() {
-        return payrollDeductions;
-    }
-
-    public void setPayrollDeductions(Double payrollDeductions) {
-        this.payrollDeductions = payrollDeductions;
-    }
-
-    public Double getPayrollTotalPay() {
-        return payrollTotalPay;
-    }
-
-    public void setPayrollTotalPay(Double payrollTotalPay) {
-        this.payrollTotalPay = payrollTotalPay;
-    }
 }

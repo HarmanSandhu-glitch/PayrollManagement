@@ -2,62 +2,100 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Payroll</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined">
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@material/web/all.js?module"></script>
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-    <h1>Payroll Management System</h1>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="employees.html">Employees</a>
-        <a href="departments.html">Departments</a>
-        <a href="positions.html">Positions</a>
-        <a href="payroll.html">Payroll</a>
-    </nav>
-</header>
-
-<main>
-    <h2>Manage Payroll</h2>
-
-    <div>
-        <h3>Generate Payroll</h3>
-        <form onsubmit="generatePayroll(event)">
-            <label for="payrollEmployeeId">Select Employee:</label>
-            <select id="payrollEmployeeId" required></select>
-            <label for="deductions">Deductions:</label>
-            <input type="number" id="deductions" value="0">
-            <button type="submit">Generate</button>
-        </form>
+<div class="main-layout">
+    <div class="top-app-bar">
+        <span class="app-title">Payroll</span>
+        <div class="spacer"></div>
+        <md-text-button href="index.html">Home</md-text-button>
+        <md-text-button href="employees.html">Employees</md-text-button>
+        <md-text-button href="departments.html">Departments</md-text-button>
+        <md-text-button href="positions.html">Positions</md-text-button>
+        <md-text-button href="payroll.html">Payroll</md-text-button>
     </div>
 
-    <div>
-        <h3>View Payroll</h3>
-        <form onsubmit="viewPayroll(event)">
-            <label for="viewPayrollEmployeeId">Select Employee:</label>
-            <select id="viewPayrollEmployeeId" required></select>
-            <button type="submit">View</button>
-        </form>
-        <table id="payrollTable">
-            <thead>
-            <tr>
-                <th>Payroll ID</th>
-                <th>Pay Date</th>
-                <th>Base Salary</th>
-                <th>Experience Bonus</th>
-                <th>Deductions</th>
-                <th>Total Pay</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-</main>
+    <main class="page-content">
+        <div class="card">
+            <div class="card-header">
+                <h2>Generate Payroll</h2>
+            </div>
+            <form onsubmit="generatePayroll(event)">
+                <div class="form-container">
+                    <md-outlined-select label="Select Employee" id="payrollEmployeeId" required></md-outlined-select>
+                    <md-outlined-text-field label="Deductions" type="number" id="deductions" value="0"></md-outlined-text-field>
+                </div>
+                <div class="form-actions">
+                    <md-filled-button type="submit">Generate</md-filled-button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>View Payroll</h2>
+            </div>
+            <form onsubmit="viewPayroll(event)">
+                <div class="view-form-container">
+                    <md-outlined-select label="Select Employee" id="viewPayrollEmployeeId" required></md-outlined-select>
+                    <div class="form-actions" style="margin-top: 0;">
+                        <md-filled-button type="submit">View</md-filled-button>
+                    </div>
+                </div>
+            </form>
+            <div class="responsive-table-container" style="margin-top: 24px;">
+                <table class="m3-table" id="payrollTable">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Pay Date</th>
+                        <th>Base Salary</th>
+                        <th>Bonus</th>
+                        <th>Deductions</th>
+                        <th>Total Pay</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
 
 <script src="script.js"></script>
 <script>
     window.onload = function() {
+        const payrollSelect = document.getElementById('payrollEmployeeId');
+        const viewSelect = document.getElementById('viewPayrollEmployeeId');
+
+        const addOptions = (select, data) => {
+            select.innerHTML = ''; // Clear previous options
+            data.forEach(item => {
+                const option = document.createElement('md-menu-item');
+                option.value = item.employeeId;
+                option.textContent = item.employeeName;
+                select.appendChild(option);
+            });
+        };
+
+        // Override loadEmployeesDropdown for MWC selects
+        window.loadEmployeesDropdown = function(selectId) {
+            const targetSelect = document.getElementById(selectId);
+            fetch('/api/employees', { headers: { 'Authorization': 'Basic ' + btoa('user:password') } })
+                .then(response => response.json())
+                .then(data => addOptions(targetSelect, data));
+        };
+
         loadEmployeesDropdown('payrollEmployeeId');
         loadEmployeesDropdown('viewPayrollEmployeeId');
     };

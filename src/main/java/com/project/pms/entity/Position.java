@@ -1,9 +1,11 @@
 package com.project.pms.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "positions")
+@Data
 public class Position {
 
     @Id
@@ -18,37 +20,4 @@ public class Position {
 
     @Column(nullable = false)
     private Double positionBaseSalary = 0.0;
-
-    // Getters and Setters
-    public Long getPositionId() {
-        return positionId;
-    }
-
-    public void setPositionId(Long positionId) {
-        this.positionId = positionId;
-    }
-
-    public String getPositionTitle() {
-        return positionTitle;
-    }
-
-    public void setPositionTitle(String positionTitle) {
-        this.positionTitle = positionTitle;
-    }
-
-    public Double getPositionExperienceBonus() {
-        return positionExperienceBonus;
-    }
-
-    public void setPositionExperienceBonus(Double positionExperienceBonus) {
-        this.positionExperienceBonus = positionExperienceBonus;
-    }
-
-    public Double getPositionBaseSalary() {
-        return positionBaseSalary;
-    }
-
-    public void setPositionBaseSalary(Double positionBaseSalary) {
-        this.positionBaseSalary = positionBaseSalary;
-    }
 }

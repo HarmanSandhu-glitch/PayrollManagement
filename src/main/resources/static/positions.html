@@ -2,53 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Positions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined">
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@material/web/all.js?module"></script>
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-    <h1>Payroll Management System</h1>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="employees.html">Employees</a>
-        <a href="departments.html">Departments</a>
-        <a href="positions.html">Positions</a>
-        <a href="payroll.html">Payroll</a>
-    </nav>
-</header>
-
-<main>
-    <h2>Manage Positions</h2>
-    <button onclick="showAddPositionForm()">Add New Position</button>
-    <table id="positionsTable">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Base Salary</th>
-            <th>Experience Bonus</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
-    <div id="positionForm" style="display:none;">
-        <h3>Add/Edit Position</h3>
-        <form onsubmit="submitPositionForm(event)">
-            <input type="hidden" id="positionId">
-            <label for="positionTitle">Title:</label>
-            <input type="text" id="positionTitle" required>
-            <label for="positionBaseSalary">Base Salary:</label>
-            <input type="number" id="positionBaseSalary" required>
-            <label for="positionExperienceBonus">Experience Bonus:</label>
-            <input type="number" id="positionExperienceBonus" required>
-            <button type="submit">Save</button>
-            <button type="button" onclick="hidePositionForm()">Cancel</button>
-        </form>
+<div class="main-layout">
+    <div class="top-app-bar">
+        <span class="app-title">Positions</span>
+        <div class="spacer"></div>
+        <md-text-button href="index.html">Home</md-text-button>
+        <md-text-button href="employees.html">Employees</md-text-button>
+        <md-text-button href="departments.html">Departments</md-text-button>
+        <md-text-button href="positions.html">Positions</md-text-button>
+        <md-text-button href="payroll.html">Payroll</md-text-button>
     </div>
-</main>
+
+    <main class="page-content">
+        <div class="card">
+            <div class="card-header">
+                <h2>Position List</h2>
+            </div>
+            <div class="responsive-table-container">
+                <table class="m3-table" id="positionsTable">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Base Salary</th>
+                        <th>Experience Bonus</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card" id="positionForm" style="display:none;">
+            <div class="card-header">
+                <h2>Add/Edit Position</h2>
+            </div>
+            <form onsubmit="submitPositionForm(event)">
+                <div class="form-container">
+                    <input type="hidden" id="positionId">
+                    <md-outlined-text-field label="Title" id="positionTitle" required></md-outlined-text-field>
+                    <md-outlined-text-field label="Base Salary" type="number" id="positionBaseSalary" required></md-outlined-text-field>
+                    <md-outlined-text-field label="Experience Bonus" type="number" id="positionExperienceBonus" required></md-outlined-text-field>
+                </div>
+                <div class="form-actions">
+                    <md-outlined-button type="button" onclick="hidePositionForm()">Cancel</md-outlined-button>
+                    <md-filled-button type="submit">Save</md-filled-button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <md-fab aria-label="Add Position" onclick="showAddPositionForm()">
+        <span class="material-symbols-outlined" slot="icon">add</span>
+    </md-fab>
+</div>
 
 <script src="script.js"></script>
 <script>
