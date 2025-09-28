@@ -20,24 +20,27 @@
 <main>
     <h2>Manage Payroll</h2>
 
-    <div>
-        <h3>Generate Payroll</h3>
+    <div class="form-container">
         <form onsubmit="generatePayroll(event)">
-            <label for="payrollEmployeeId">Select Employee:</label>
+            <h3>Generate Payroll</h3>
+            <label for="payrollEmployeeId">Select Employee</label>
             <select id="payrollEmployeeId" required></select>
-            <label for="deductions">Deductions:</label>
+            <label for="deductions">Deductions</label>
             <input type="number" id="deductions" value="0">
             <button type="submit">Generate</button>
         </form>
     </div>
 
-    <div>
-        <h3>View Payroll</h3>
+    <div class="form-container">
         <form onsubmit="viewPayroll(event)">
-            <label for="viewPayrollEmployeeId">Select Employee:</label>
+            <h3>View Payroll</h3>
+            <label for="viewPayrollEmployeeId">Select Employee</label>
             <select id="viewPayrollEmployeeId" required></select>
             <button type="submit">View</button>
         </form>
+    </div>
+
+    <div class="table-container">
         <table id="payrollTable">
             <thead>
             <tr>

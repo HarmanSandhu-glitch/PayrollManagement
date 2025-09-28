@@ -19,28 +19,33 @@
 
 <main>
     <h2>Manage Departments</h2>
-    <button onclick="showAddDepartmentForm()">Add New Department</button>
-    <table id="departmentsTable">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+    <div class="button-container">
+        <button onclick="showAddDepartmentForm()">Add New Department</button>
+    </div>
 
-    <div id="departmentForm" style="display:none;">
-        <h3>Add/Edit Department</h3>
+    <div id="departmentForm">
         <form onsubmit="submitDepartmentForm(event)">
+            <h3>Department Details</h3>
             <input type="hidden" id="departmentId">
-            <label for="departmentName">Name:</label>
+            <label for="departmentName">Department Name</label>
             <input type="text" id="departmentName" required>
-            <button type="submit">Save</button>
+            <button type="submit">Save Department</button>
             <button type="button" onclick="hideDepartmentForm()">Cancel</button>
         </form>
+    </div>
+
+    <div class="table-container">
+        <table id="departmentsTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
 </main>
 
