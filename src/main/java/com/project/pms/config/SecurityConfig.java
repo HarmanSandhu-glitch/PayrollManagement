@@ -2,6 +2,7 @@ package com.project.pms.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -27,7 +28,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/**").authenticated() // Secure API endpoints
+                        // Allow read-only access to lists for populating UI elements
+                        .requestMatchers(HttpMethod.GET, "/api/employees", "/api/departments", "/api/positions").permitAll()
+                        .requestMatchers("/api/**").authenticated() // Secure all other API endpoints
                         .anyRequest().permitAll() // Allow access to static content
                 )
                 .httpBasic()

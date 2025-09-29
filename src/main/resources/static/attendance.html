@@ -33,28 +33,5 @@
 </main>
 
 <script src="script.js"></script>
-<script>
-    window.onload = function() {
-        loadEmployeesDropdown('attendanceEmployeeId');
-    };
-
-    function checkIn() {
-        const employeeId = document.getElementById('attendanceEmployeeId').value;
-        fetch(`/api/attendance/checkin/${employeeId}`, { method: 'POST' })
-            .then(response => {
-                if(response.ok) alert('Checked-in successfully!');
-                else alert('Check-in failed!');
-            });
-    }
-
-    function checkOut() {
-        const employeeId = document.getElementById('attendanceEmployeeId').value;
-        fetch(`/api/attendance/checkout/${employeeId}`, { method: 'POST' })
-            .then(response => {
-                if(response.ok) alert('Checked-out successfully!');
-                else alert('Check-out failed!');
-            });
-    }
-</script>
 </body>
 </html>

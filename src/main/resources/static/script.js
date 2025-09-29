@@ -320,3 +320,72 @@ function loadEmployeesDropdown(selectId) {
             });
         });
 }
+
+// --- NEW FEATURES ---
+
+// Attendance Management
+function checkIn() {
+    const employeeId = document.getElementById('attendanceEmployeeId').value;
+    fetch(`/api/attendance/checkin/${employeeId}`, { method: 'POST' })
+        .then(response => {
+            if(response.ok) alert('Checked-in successfully!');
+            else alert('Check-in failed!');
+        });
+}
+
+function checkOut() {
+    const employeeId = document.getElementById('attendanceEmployeeId').value;
+    fetch(`/api/attendance/checkout/${employeeId}`, { method: 'POST' })
+        .then(response => {
+            if(response.ok) alert('Checked-out successfully!');
+            else alert('Check-out failed!');
+        });
+}
+
+// Leave Management
+function applyForLeave(event) {
+    event.preventDefault();
+    const employeeId = document.getElementById('leaveEmployeeId').value;
+    const leave = {
+        startDate: document.getElementById('startDate').value,
+        endDate: document.getElementById('endDate').value,
+        reason: document.getElementById('reason').value
+    };
+    fetch(`/api/leaves/apply/${employeeId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(leave)
+    }).then(() => {
+        alert('Leave applied successfully!');
+        loadAllLeaveRequests();
+    });
+}
+
+function loadAllLeaveRequests() {
+    fetch('/api/leaves')
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('leavesTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = '';
+            data.forEach(leave => {
+                let row = tableBody.insertRow();
+                row.insertCell(0).innerHTML = leave.employee.employeeName;
+                row.insertCell(1).innerHTML = new Date(leave.startDate).toLocaleDateString();
+                row.insertCell(2).innerHTML = new Date(leave.endDate).toLocaleDateString();
+                row.insertCell(3).innerHTML = leave.reason;
+                row.insertCell(4).innerHTML = leave.status;
+                row.insertCell(5).innerHTML = `
+                    <button onclick="updateLeaveStatus(${leave.leaveId}, 'APPROVED')">Approve</button>
+                    <button onclick="updateLeaveStatus(${leave.leaveId}, 'REJECTED')">Reject</button>
+                `;
+            });
+        });
+}
+
+function updateLeaveStatus(leaveId, status) {
+    fetch(`/api/leaves/update/${leaveId}?status=${status}`, { method: 'PUT' })
+        .then(() => {
+            alert(`Leave ${status.toLowerCase()} successfully!`);
+            loadAllLeaveRequests();
+        });
+}
